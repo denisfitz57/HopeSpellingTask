@@ -49,12 +49,15 @@ var sequence = [
 shuffle(sequence);
 //Go through the file sequence and add an audio-keyboard-response object for each file
 var experimentTimeline = [];
-
+var urlvar = jsPsych.data.urlVariables();
 var getIdTrial = {
-    type: "survey-html-form",
-    preamble: "<p> Enter the ID you have been given.</p>",
-    html: '<p> ID: <input type="text" id="test-resp-box" name="response" size="10" /></p>',
-    autofocus: "test-resp-box",
+    type: "survey-text",
+    questions: [{
+        prompt: "Enter the ID you have been given.",
+        placeholder: urlvar.subjectID,
+    }, ],
+    preamble: "",
+    button_label: "Click to enter ID",
 };
 experimentTimeline = experimentTimeline.concat(getIdTrial);
 
@@ -98,4 +101,7 @@ experimentTimeline = experimentTimeline.concat(sequenceFinishedText);
 jsPsych.init({
     timeline: experimentTimeline,
     preload: sequence,
+    on_finish: function() {
+        window.close();
+    },
 });
